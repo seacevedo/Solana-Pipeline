@@ -1,0 +1,14 @@
+crypto_reddit_dbt:
+  outputs:
+    dev:
+      dataset: crypto_currency_posts
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      keyfile: /home/seacevedo/crypto_reddit.json
+      location: US
+      method: service-account
+      priority: interactive
+      project: crypto-reddit-scraper
+      threads: 4
+      type: bigquery
+  target: dev

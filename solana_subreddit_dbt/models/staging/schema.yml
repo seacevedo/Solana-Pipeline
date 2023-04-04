@@ -1,0 +1,41 @@
+
+version: 2
+
+sources:
+ - name: staging
+   database: "crypto-reddit-scraper"
+   schema: "crypto_currency_posts"
+   tables:
+    - name: submissions
+    - name: comments
+    - name: sentiments
+
+
+
+models:
+  - name: stg_submissions
+    description: "Submitted posts on the CryptoCurrency subreddit within a 24 hour time period."
+    columns:
+      - name: post_id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_comments
+    description: "Replies within posts on the CryptoCurrency subreddit within a 24 hour time period."
+    columns:
+      - name: reply_id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_sentiments
+    description: "Sentiments on posts and replies on the CryptoCurrency subreddit within a a 24 hour time period"
+    columns:
+      - name: sentiment_id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
