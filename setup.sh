@@ -22,6 +22,7 @@ cd ..
 
 git clone https://github.com/seacevedo/Solana-Pipeline.git
 cd Solana-Pipeline
+echo '${SERVICE_ACCOUNT_JSON}' >> service_account_keyfile.json
 
 sudo apt-get update -y
 sudo apt install python3-pip -y
@@ -30,5 +31,6 @@ python3 -m venv solana-pipeline-env
 source solana-pipeline-env/bin/activate
 pip3 install -r requirements.txt
 python3 -m spacy download en_core_web_sm
+
 
 

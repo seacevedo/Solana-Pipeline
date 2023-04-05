@@ -56,6 +56,7 @@ resource "google_compute_instance" "project-vm" {
     metadata = {
       ssh-keys = "${var.SSH_USER}:${file(var.SSH_PUBLIC_KEY_PATH)}"
       startup-script = "${file(var.SETUP_SCRIPT_PATH)}"
+      "SERVICE_ACCOUNT_JSON" = "${file(var.SERVICE_ACCOUNT_FILE_PATH)}"
     }
 
 
