@@ -78,21 +78,21 @@ def process_sentiment(spark: SparkSession, dir_path: str) ->  Tuple[SparkDataFra
 
 
 @task(name="Create bq tables from subreddit data")
-def migrate_to_bq(sub_ddf: SparkDataFrame, com_ddf: SparkDataFrame, sent_ddf: SparkDataFrame) -> None:
+def migrate_to_bq(sub_ddf: SparkDataFrame, com_ddf: SparkDataFrame, sent_ddf: SparkDataFrame, gc_project_id: str) -> None:
 
     gcp_credentials_block = GcpCredentials.load("crypto-gcp-creds")
 
     sub_ddf.toPandas().to_gbq(
-        destination_table="crypto_currency_posts.submissions",
-        project_id="crypto-reddit-scraper",
+        destination_table="solana_subreddit_posts.submissions",
+        project_id=gc_project_id,
         credentials=gcp_credentials_block.get_credentials_from_service_account(),
         chunksize=500_000,
         if_exists="append",
     )
 
     com_ddf.toPandas().to_gbq(
-        destination_table="crypto_currency_posts.comments",
-        project_id="crypto-reddit-scraper",
+        destination_table="solana_subreddit_posts.comments",
+        project_id=gc_project_id,
         credentials=gcp_credentials_block.get_credentials_from_service_account(),
         chunksize=500_000,
         if_exists="append",
@@ -100,8 +100,8 @@ def migrate_to_bq(sub_ddf: SparkDataFrame, com_ddf: SparkDataFrame, sent_ddf: Sp
 
 
     sent_ddf.toPandas().to_gbq(
-        destination_table="crypto_currency_posts.sentiments",
-        project_id="crypto-reddit-scraper",
+        destination_table="solana_subreddit_posts.sentiments",
+        project_id=gc_project_id,
         credentials=gcp_credentials_block.get_credentials_from_service_account(),
         chunksize=500_000,
         if_exists="append",

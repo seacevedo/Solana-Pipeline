@@ -18,7 +18,7 @@ def get_spark_session(conf: SparkConf):
 
 
 @flow()
-def run_pipeline(client_id: str, client_secret: str, reddit_username: str, bucket_dir: str, dbt_dir:str, subreddit: str, subreddit_cap: int, partition_num: int, num_days: int):
+def run_pipeline(client_id: str, client_secret: str, reddit_username: str, bucket_dir: str, dbt_dir:str, subreddit: str, subreddit_cap: int, partition_num: int, num_days: int, gc_project_id: str):
 
     n_cpus = cpu_count()
     n_executors = n_cpus - 1
@@ -35,13 +35,13 @@ def run_pipeline(client_id: str, client_secret: str, reddit_username: str, bucke
         write_gcs(output_manager.subreddit)
         extract_from_gcs(output_manager.subreddit, output_manager.bucket_dir)
         sub_ddf, com_ddf, sent_ddf = process_sentiment(spark_session, output_manager.bq_upload_dir)  
-        migrate_to_bq(sub_ddf, com_ddf, sent_ddf)
+        migrate_to_bq(sub_ddf, com_ddf, sent_ddf, gc_project_id)
         run_dbt_transformations(dbt_dir)
 
 
 def deploy():
     deployment = Deployment.build_from_flow(
-        flow=run_pipeline("wj7WStWsR9lAIOud20Z2EA", "IYis6DUO0DeeZjCDNdDaNABQwVi-rw",  "bass581", "/home/seacevedo/solana_subreddit_pipeline/flows/bucket_data/", "/home/seacevedo/solana_subreddit_pipeline/solana_subreddit_dbt/", "solana", 50, 10, 1),
+        flow=run_pipeline("wj7WStWsR9lAIOud20Z2EA", "IYis6DUO0DeeZjCDNdDaNABQwVi-rw",  "bass581", "/home/seacevedo/solana_subreddit_pipeline/flows/bucket_data/", "/home/seacevedo/solana_subreddit_pipeline/solana_subreddit_dbt/", "solana", 50, 10, 1, "solana-subreddit-scraper"),
         name="solana-pipeline-deployment"
     )
     deployment.apply()
