@@ -3,8 +3,8 @@ version: 2
 
 sources:
  - name: staging
-   database: "crypto-reddit-scraper"
-   schema: "crypto_currency_posts"
+   database: "solana-subreddit-scraper"
+   schema: "solana_subreddit_posts"
    tables:
     - name: submissions
     - name: comments
@@ -32,7 +32,7 @@ models:
           - not_null
 
   - name: stg_sentiments
-    description: "Sentiments on posts and replies on the CryptoCurrency subreddit within a a 24 hour time period"
+    description: "Sentiments on posts and replies on the CryptoCurrency subreddit within a 24 hour time period"
     columns:
       - name: sentiment_id
         description: "The primary key for this table"

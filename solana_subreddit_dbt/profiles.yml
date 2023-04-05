@@ -1,14 +1,14 @@
-crypto_reddit_dbt:
+solana_subreddit_dbt:
   outputs:
     dev:
-      dataset: crypto_currency_posts
+      dataset: solana_subreddit_posts
       job_execution_timeout_seconds: 300
       job_retries: 1
-      keyfile: /home/seacevedo/crypto_reddit.json
+      keyfile: /path/to/keyfile
       location: US
       method: service-account
       priority: interactive
-      project: crypto-reddit-scraper
+      project: solana-subreddit-scraper
       threads: 4
       type: bigquery
   target: dev
