@@ -5,6 +5,7 @@ from multiprocessing import cpu_count
 from output_manager import *
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
+from prefect.deployments import Deployment
 
 @contextlib.contextmanager
 def get_spark_session(conf: SparkConf):
@@ -37,9 +38,16 @@ def run_pipeline(client_id: str, client_secret: str, reddit_username: str, bucke
         migrate_to_bq(sub_ddf, com_ddf, sent_ddf)
         run_dbt_transformations(dbt_dir)
 
-        
+
+def deploy():
+    deployment = Deployment.build_from_flow(
+        flow=run_pipeline("wj7WStWsR9lAIOud20Z2EA", "IYis6DUO0DeeZjCDNdDaNABQwVi-rw",  "bass581", "/home/seacevedo/solana_subreddit_pipeline/flows/bucket_data/", "/home/seacevedo/solana_subreddit_pipeline/solana_subreddit_dbt/", "solana", 50, 10, 1),
+        name="solana-pipeline-deployment"
+    )
+    deployment.apply()
+
         
 
 
 if __name__ == '__main__':
-    run_pipeline(client_id, client_secret,  reddit_username, bucket_dir, dbt_dir, subreddit, 50, 10, 1)
+   deploy()

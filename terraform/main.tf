@@ -55,10 +55,10 @@ resource "google_compute_instance" "project-vm" {
 
     metadata = {
       ssh-keys = "${var.SSH_USER}:${file(var.SSH_PUBLIC_KEY_PATH)}"
-      # "PREFECT_API_KEY" = var.PREFECT_API_KEY
-      # "PREFECT_API_URL" = var.PREFECT_API_URL
-      # "PREFECT_AGENT_QUEUE_NAME" = var.PREFECT_AGENT_QUEUE_NAME
+      startup-script = "${file(var.SETUP_SCRIPT_PATH)}"
     }
+
+
 
     boot_disk {
         initialize_params {

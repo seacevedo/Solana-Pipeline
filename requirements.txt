@@ -1,7 +1,7 @@
 pandas==1.5.2
 praw==7.7.0
 prefect==2.7.7
-prefect_dbt==0.3.1
-prefect_gcp==0.2.4
+prefect-dbt==0.3.1
+prefect-gcp==0.2.4
 spacy==3.5.1
 spacytextblob==4.0.0

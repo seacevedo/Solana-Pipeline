@@ -18,15 +18,13 @@ echo 'export PATH="${SPARK_HOME}/bin:${PATH}"' >> ~/.bashrc
 echo 'export PYTHONPATH="${SPARK_HOME}/python/:$PYTHONPATH"' >> ~/.bashrc 
 echo 'export PYTHONPATH="${SPARK_HOME}/python/lib/py4j-0.10.9.5-src.zip:$PYTHONPATH"' >> ~/.bashrc 
 
+cd ..
+
+git clone https://github.com/seacevedo/Solana-Pipeline.git
+cd Solana-Pipeline
 
 sudo apt-get update -y
 sudo apt install python3-pip -y
-sudo apt-get install python3-venv -y
-
-cd ~
-source ~/.bashrc
-python3 -m venv solana-pipeline-env
-source solana-pipeline-env/bin/activate
 pip3 install -r requirements.txt
 
 

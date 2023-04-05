@@ -9,6 +9,7 @@ from prefect_gcp.cloud_storage import GcsBucket
 from prefect_gcp import GcpCredentials
 from prefect_dbt.cli import DbtCoreOperation
 from typing import Tuple
+from pyspark.sql import SparkSession
 from os.path import join
 
 

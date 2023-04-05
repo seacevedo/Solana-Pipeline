@@ -47,6 +47,11 @@ variable "SSH_PUBLIC_KEY_PATH" {
 
 }
 
+variable "SETUP_SCRIPT_PATH" {
+
+}
+
 variable "SERVICE_ACCOUNT_FILE_PATH" {
 
 }
+
