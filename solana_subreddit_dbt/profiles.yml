@@ -5,7 +5,7 @@ solana_subreddit_dbt:
       job_execution_timeout_seconds: 300
       job_retries: 1
       keyfile: /path/to/keyfile
-      location: US
+      location: us-central1
       method: service-account
       priority: interactive
       project: solana-subreddit-scraper

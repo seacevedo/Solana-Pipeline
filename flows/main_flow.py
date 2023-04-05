@@ -5,7 +5,7 @@ from multiprocessing import cpu_count
 from output_manager import *
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
-from prefect.deployments import Deployment
+import sys
 
 @contextlib.contextmanager
 def get_spark_session(conf: SparkConf):
@@ -38,16 +38,18 @@ def run_pipeline(client_id: str, client_secret: str, reddit_username: str, bucke
         migrate_to_bq(sub_ddf, com_ddf, sent_ddf, gc_project_id)
         run_dbt_transformations(dbt_dir)
 
-
-def deploy():
-    deployment = Deployment.build_from_flow(
-        flow=run_pipeline("wj7WStWsR9lAIOud20Z2EA", "IYis6DUO0DeeZjCDNdDaNABQwVi-rw",  "bass581", "/home/seacevedo/solana_subreddit_pipeline/flows/bucket_data/", "/home/seacevedo/solana_subreddit_pipeline/solana_subreddit_dbt/", "solana", 50, 10, 1, "solana-subreddit-scraper"),
-        name="solana-pipeline-deployment"
-    )
-    deployment.apply()
-
         
 
 
 if __name__ == '__main__':
-   deploy()
+   client_id = sys.argv[1]
+   client_secret = sys.argv[2]
+   reddit_username = sys.argv[3]
+   bucket_dir = sys.argv[4]
+   dbt_dir = sys.argv[5]
+   subreddit = sys.argv[6]
+   subreddit_cap = sys.argv[7]
+   partition_num = sys.argv[8]
+   num_days = sys.argv[9]
+   gc_project_id = sys.argv[10]
+   run_pipeline(client_id, client_secret, reddit_username, bucket_dir, dbt_dir, subreddit, subreddit_cap, partition_num, num_days, gc_project_id)
