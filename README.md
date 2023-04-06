@@ -89,6 +89,12 @@ Solana is a new blockchain protocol that has garrnered interest in the technolog
 ### Lineage Graph
 ![alt_text](https://github.com/seacevedo/Solana-Pipeline/blob/main/lineage_graph.png)
 
+* `staging.submission`, `staging.sentiments`, and `staging.comments` are tables where we have loaded all of our collected subreddit data. 
+* `stg_submission`, `stg_sentiments`, and `stg_comments` are views that apply some type casting and create new surrogate keys. This is to ensure that the api does not somehow extract the same id for two different posts.  
+* `fact_submission` and `fact_comments` are tables that join the `stg_submission` and `stg_comments` with `stg_sentiments`. They are partitioned by the time of creation and clustered by sentiment label.
+* `fact_engagement` is a table that joins the  `fact_submission` and `fact_comments` and applies some aggregations to calculate the number of comments per post and caluclate the upvote comment ratio.
+
+
 
 
 
