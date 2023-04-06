@@ -4,6 +4,7 @@ from pyspark.sql import types
 from os.path import join
 
 class OutputManager:
+    '''Class helps maintain some paths to write files to local machine and bucket'''
     def __init__(self, subreddit: str, subreddit_cap: int, partition_num: int, bucket_dir: str):
         self.submissions_list = []
         self.subreddit = subreddit
@@ -22,10 +23,12 @@ class OutputManager:
 
 
     def reset_lists(self):
+        '''reset lists that have submission and comments data'''
         self.submissions_list = []
         self.comments_list = []
 
     def store(self, spark: SparkSession):
+        '''write post and comment data to local environment'''
 
         sub_schema = types.StructType([
             types.StructField('submission_id', types.StringType(), True),
