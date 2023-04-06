@@ -9,10 +9,10 @@ Solana is a new blockchain protocol that has garrnered interest in the technolog
 
 # Questions This Project Seeks to Answer
 
-Who are the top posters on the subreddit?
-What posts have the most engagement? (Most comments, upvotes, etc.)
-What is the average sentiment over time?
-Do the posts who have the most upvotes always have the most comments?
+* Who are the top posters on the subreddit?
+* What posts have the most engagement? (Most comments, upvotes, etc.)
+* What is the average sentiment over time?
+* Do the posts who have the most upvotes always have the most comments?
 
 
 
