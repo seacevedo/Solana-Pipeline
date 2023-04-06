@@ -95,6 +95,9 @@ Solana is a new blockchain protocol that has garrnered interest in the technolog
 * `fact_engagement` is a table that joins the  `fact_submission` and `fact_comments` and applies some aggregations to calculate the number of comments per post and caluclate the upvote comment ratio.
 
 
+## Dashboard Preview
+Access the dashboard [here](https://lookerstudio.google.com/reporting/155051d4-8969-4104-b3c3-32b8018f5825/page/6EmLD) 
 
+![alt_text](https://github.com/seacevedo/Solana-Pipeline/blob/main/dashboard_preview.png)
 
 
