@@ -61,9 +61,8 @@ def write_gcs(path: Path) -> None:
 
 
 @task(name="Fetching Subreddit Data", log_prints=True, retries=3)
-'''Gets subreddit and post data that is N days old'''
 def fetch_subreddit_data(client_id: str, client_secret: str, reddit_username: str, num_days: int, output_manager: OutputManager, spark: SparkSession):
-    
+    '''Gets subreddit and post data that is N days old'''
     output_manager.reset_lists()
 
     with reddit_client(client_id, client_secret, reddit_username) as reddit:
