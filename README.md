@@ -86,6 +86,8 @@ Solana is a new blockchain protocol that has garrnered interest in the technolog
 | upvote_comment_ratio | FLOAT    | ratio of the number of upvotes divided by the number of comments. Metric to measure engagement. |
 | submission_created_time | TIMESTAMP | Time post was created in UTC |
 
+### Lineage Graph
+![alt_text](https://github.com/seacevedo/Solana-Pipeline/blob/main/lineage_graph.png)
 
 
 
