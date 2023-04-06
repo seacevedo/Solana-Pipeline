@@ -16,6 +16,10 @@ from os.path import join
 
 
 def get_sentiment(text, reddit_obj_id, reddit_obj_type):
+    
+    '''
+    Function that uses the SpaCy library to calculate sentiment. Text for each post/comment is analyzed for sentiment and postive and negative words are extracted.
+    '''
 
     nlp = spacy.load('en_core_web_sm')
     nlp.add_pipe('spacytextblob')
@@ -47,16 +51,25 @@ def get_sentiment(text, reddit_obj_id, reddit_obj_type):
 
 
 def load_submission_data(spark: SparkSession, dir_path: str) -> SparkDataFrame:
+    '''
+    Load post data from subreddit
+    '''
     submission_ddf = spark.read.parquet(dir_path)
     return submission_ddf
 
 def load_comment_data(spark: SparkSession, dir_path: str) -> SparkDataFrame:
+    '''
+    Load comment data for each extracted post from subreddit
+    '''
     comment_ddf = spark.read.parquet(dir_path)
     return comment_ddf
 
 
 @task(name="Process sentiment for subreddit data")
-def process_sentiment(spark: SparkSession, dir_path: str) ->  Tuple[SparkDataFrame, SparkDataFrame, SparkDataFrame]:
+def process_sentiment(spark: SparkSession, dir_path: str) ->  Tuple[SparkDataFrame, SparkDataFrame, SparkDataFrame]:\
+    '''
+    Loads submission and post data, processes sentiment, and then creates a new spark datframe for the resuting data
+    '''
     sub_ddf = load_submission_data(spark, join(dir_path, "submissions"))
     sub_ddf.show()
     com_ddf = load_comment_data(spark, join(dir_path, "comments"))
@@ -79,6 +92,9 @@ def process_sentiment(spark: SparkSession, dir_path: str) ->  Tuple[SparkDataFra
 
 @task(name="Create bq tables from subreddit data")
 def migrate_to_bq(sub_ddf: SparkDataFrame, com_ddf: SparkDataFrame, sent_ddf: SparkDataFrame, gc_project_id: str) -> None:
+    '''
+    Converts spark dataframes to pandas dataframes and uploads them to BiqQuery as tables
+    '''
 
     gcp_credentials_block = GcpCredentials.load("crypto-gcp-creds")
 
@@ -108,7 +124,10 @@ def migrate_to_bq(sub_ddf: SparkDataFrame, com_ddf: SparkDataFrame, sent_ddf: Sp
     )
    
 @task(name="run dbt to transform bigquery tables", log_prints=True)
-def run_dbt_transformations(dir_path) -> None:
+def run_dbt_transformations(dir_path) -> None:\
+    '''
+    Run the dbt tranformations defined in the 'solana_subreddit_dbt' folder
+    '''
    dbt_op = DbtCoreOperation(
       commands=["dbt deps", "dbt build --var 'is_test_run: false'"],
       working_dir=dir_path,
@@ -120,5 +139,8 @@ def run_dbt_transformations(dir_path) -> None:
 
 @task(name="Extract subreddit data from gcs bucket")
 def extract_from_gcs(bucket_dir: str, target_dir: str) -> None:
+    '''
+    Extract the data from the gcs bucket
+    '''
     gcs_block = GcsBucket.load("crypto-reddit")
     gcs_block.download_folder_to_path(from_folder=bucket_dir, to_folder=target_dir)
