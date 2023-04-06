@@ -2,9 +2,7 @@ from prefect.deployments import Deployment
 from main_flow import run_pipeline
 
 def deploy():
-    '''
-    Function wraps a flow into a deployment for monitoring, scheduling, etc.
-    '''
+    # Function wraps a flow into a deployment for monitoring, scheduling, etc.
     deployment = Deployment.build_from_flow(
         flow=run_pipeline,
         name="solana-pipeline-deployment"
