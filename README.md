@@ -149,3 +149,9 @@ https://console.cloud.google.com/apis/library/compute.googleapis.com
 7. You should now have prefect installed. Run the prefect server locally using the `prefect orion start` command to monitor flows. In another terminal, `cd` into the `flows` directory and run the command `python deployment.py` to setup the prefect deployment. You can then run the deployment using the command `prefect deployment run run-pipeline/solana-pipeline-deployment --params '{"client_id":<client_id>, "client_secret":<client_secret>, "reddit_username"<reddit_username>, "bucket_dir":"/root/Solana-Pipeline/flows/bucket_data/", "dbt_dir":"/root/Solana-Pipeline/solana_subreddit_dbt/", "subreddit":"solana", "subreddit_cap":50, "partition_num":10, "num_days":1, "gc_project_id":"solana-subreddit-scraper"}'` as an example. The deployment should be scheduled. 
 8. Your newly scheduled deployment can be run when initiating a prefect agent. Run the command `prefect agent start -q "default"` to run your deployment.
 
+## Next Steps
+* Add CI/CD tooling to automate the workflow and make it more production ready
+* Take advantage of systemd to run the agent when the VM starts up
+* Add Piperider to allow for data profiling and monitoring
+* Combine with MLOps tools to train NLP models to calculate sentiment instead of using SpaCy.
+
