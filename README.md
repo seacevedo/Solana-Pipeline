@@ -32,7 +32,60 @@ Solana is a new blockchain protocol that has garrnered interest in the technolog
 * Terraform is used to setup the environment to run our pipeline. When run, the script creates our BigQuery dataset, bucket, and our VM to run our Prefect deployment.
 * A Prefect agent is run on our VM compute environment and runs any pending deployments. Using the PRAW API, our flow extracts data from the Solana subreddit and loads it into a GCS bucket. The data from the bucket is extracted and transformed with Pyspark to calculate sentiment for text from both posts and comments. Pyspark is used to speed this process up since Pandas is slower to process this dataset. The data is then uploaded to BigQuery tables for further transformation using DBT. 
 * DBT is used to further transform the data by combining the comments and posts data with their corresponding sentiment data. Data aggregations are also made to caluclate the number of comments for each post and calculate upvote/comment ratios.
-* Looker studio is used to visualized the fact data tables from the resulting transformations completed by DBT.
+* Looker studio is used to visualize the fact data tables from the resulting transformations completed by DBT.
+
+## Structure of the Fact Tables
+
+### fact_submission 
+
+| Column        | Data Type   | Description |
+| ------------- |:-------------:| -------------:| 
+| post_id      | STRING | Surrogate key created using DBT using submission_id and submission_created_time |
+| submission_id      | STRING      | Reddit Submission ID|
+| submission_author | STRING      |  Author of post |
+| submission_title | STRING      | Title of Post |
+| submission_text | STRING     | Text of post |
+| sentiment_score | NUMERIC      |  Sentiment score of post |
+| sentiment_label | STRING      |  Whether the text is postive, negative, or neutral|
+| positive_words | STRING     |  postive words found in post|
+| negative_words | STRING      |  negative words found in post |
+| submission_upvotes | INTEGER     | Number of upvotes post has |
+| submission_downvotes | INTEGER      | Nunber of downvotes post has |
+| submission_created_time | TIMESTAMP | Time post was created in UTC |
+| submission_url | STRING    | URL post links to |
+
+### fact_comment
+
+| Column        | Data Type   | Description |
+| ------------- |:-------------:| -------------:| 
+| reply_id      | STRING | Surrogate key created using DBT using comment_id and comment_created_time |
+| comment_id      | STRING      | Reddit Comment ID|
+| submission_id      | STRING      | Reddit Submission ID|
+| comment_author | STRING      |  Author of comment |
+| comment_text | STRING     | Text of comment |
+| sentiment_score | NUMERIC      |  Sentiment score of comment |
+| sentiment_label | STRING      |  Whether the text is postive, negative, or neutral|
+| positive_words | STRING     |  postive words found in comment|
+| negative_words | STRING      |  negative words found in comment |
+| comment_upvotes | INTEGER     | Number of upvotes comment has |
+| comment_downvotes | INTEGER      | Nunber of downvotes comment has |
+| comment_created_time | TIMESTAMP | Time comment was created in UTC |
+| comment_url | STRING    | URL comment links to |
+
+### fact_engagement
+
+| Column        | Data Type   | Description |
+| ------------- |:-------------:| -------------:| 
+| post_id      | STRING | Surrogate key created using DBT using submission_id and submission_created_time |
+| submission_id      | STRING      | Reddit Submission ID|
+| submission_author | STRING      |  Author of post |
+| submission_title | STRING      | Title of Post |
+| submission_upvotes | INTEGER     | Number of upvotes post has |
+| submission_downvotes | INTEGER      | Nunber of downvotes post has |
+| num_comments | INTEGER    | total number of comments the post has |
+| upvote_comment_ratio | FLOAT    | ratio of the number of upvotes divided by the number of comments. Metric to measure engagement. |
+| submission_created_time | TIMESTAMP | Time post was created in UTC |
+
 
 
 
