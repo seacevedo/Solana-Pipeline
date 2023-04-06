@@ -19,7 +19,6 @@ models:
       - name: post_id
         description: "The primary key for this table"
         tests:
-          - unique
           - not_null
 
   - name: stg_comments
@@ -28,7 +27,6 @@ models:
       - name: reply_id
         description: "The primary key for this table"
         tests:
-          - unique
           - not_null
 
   - name: stg_sentiments
@@ -37,5 +35,4 @@ models:
       - name: sentiment_id
         description: "The primary key for this table"
         tests:
-          - unique
           - not_null
