@@ -4,7 +4,7 @@ solana_subreddit_dbt:
       dataset: solana_subreddit_posts
       job_execution_timeout_seconds: 300
       job_retries: 1
-      keyfile: /path/to/keyfile
+      keyfile: /path/to/keyfile # Make sure to change the path ot the path of your key file json
       location: us-central1
       method: service-account
       priority: interactive
