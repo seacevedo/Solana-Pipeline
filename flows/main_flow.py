@@ -9,6 +9,7 @@ import sys
 
 @contextlib.contextmanager
 def get_spark_session(conf: SparkConf):
+    '''setup spark config'''
     spark = SparkSession.builder.config(conf=conf).getOrCreate()
 
     try:
@@ -19,7 +20,7 @@ def get_spark_session(conf: SparkConf):
 
 @flow()
 def run_pipeline(client_id: str, client_secret: str, reddit_username: str, bucket_dir: str, dbt_dir:str, subreddit: str, subreddit_cap: int, partition_num: int, num_days: int, gc_project_id: str):
-
+    '''Gets spark instance and runs pipeline'''
     n_cpus = cpu_count()
     n_executors = n_cpus - 1
     n_cores = 4
