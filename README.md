@@ -153,5 +153,5 @@ https://console.cloud.google.com/apis/library/compute.googleapis.com
 * Add CI/CD tooling to automate the workflow and make it more production ready
 * Take advantage of systemd to run the agent when the VM starts up
 * Add Piperider to allow for data profiling and monitoring
-* Combine with MLOps tools to train NLP models to calculate sentiment instead of using SpaCy.
+* Add docker containers to aid with reproducibility of the presented pipeline.
 
