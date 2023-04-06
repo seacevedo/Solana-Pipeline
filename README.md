@@ -14,6 +14,18 @@ Solana is a new blockchain protocol that has garrnered interest in the technolog
 * What is the average sentiment over time?
 * Do the posts who have the most upvotes always have the most comments?
 
+## Technology Stack
+
+
+* [PRAW API](https://praw.readthedocs.io/en/latest/index.html) to scrape for posts and associated comments from the Solana subreddit.
+* [Google Cloud](https://cloud.google.com/) to upload data to a google cloud bucket and use BigQuery as our data warehouse. We will also set up a VM environment to host our prefect deployment.
+* [Terraform](https://www.terraform.io/) for version control of our infrastructure.
+* [Prefect](https://www.prefect.io/) will be used to orchestrate and monitor our pipeline. 
+* [Pyspark](https://spark.apache.org/) to load data and calculate sentiment quickly and eficiently. Since this is text data, it can take some time to transform data when using Pandas for this dataset. 
+* [SpaCy](https://spacy.io/) is an NLP library that we will use to calculate sentiment for both subreddit posts and comments.
+* [Dbt](https://www.getdbt.com/) to transform out data in BigQuery and prepare it for visualization. 
+* [Looker Studio](https://lookerstudio.google.com/overview) to visualize our transformed dataset. 
+
 
 
 
