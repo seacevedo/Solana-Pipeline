@@ -111,7 +111,7 @@ Access the dashboard [here](https://lookerstudio.google.com/reporting/155051d4-8
 ### Setup Google Cloud 
 
 1. Create a google cloud account
-2. Setup a new google cloud [project](https://cloud.google.com/). Preferably name it `solana-subreddit-scraper` to avoid any issues with prefect scripts or dbt. You may need to update files in order to run the workflow if the project name is different.
+2. Setup a new google cloud [project](https://cloud.google.com/). Preferably name it `solana-subreddit-scraper` to avoid any issues with prefect scripts or dbt. You may need to update files in order to run the workflow if the project name is different. This also may be the case if your project is hosted in another location than `us-central1`.
 3. Create a new service account. Give the service account the `Compute Admin`, `Service Account User`, `Storage Admin`, `Storage Object Admin`, and `BigQuery Admin` Roles.
 4. After the service account has been created, click on `Manage Keys` under the `Actions` Menu. Click on the `Add Key` dropdown and click on `Create new key`. A prompt should pop up asking to download it as a json or P12 file. Choose the json format and click `Create`. Save your key file.
 5. Install the the [Google Cloud CLI](https://cloud.google.com/sdk/docs/install-sdk). Assuming you have an Ubuntu linux distro or similar as your environment, follow the directions for `Debian/Ubuntu`. Make sure you log in by running `gcloud init`. Choose the cloud project you created to use.
