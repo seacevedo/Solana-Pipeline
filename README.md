@@ -23,8 +23,16 @@ Solana is a new blockchain protocol that has garrnered interest in the technolog
 * [Prefect](https://www.prefect.io/) will be used to orchestrate and monitor our pipeline. 
 * [Pyspark](https://spark.apache.org/) to load data and calculate sentiment quickly and eficiently. Since this is text data, it can take some time to transform data when using Pandas for this dataset. 
 * [SpaCy](https://spacy.io/) is an NLP library that we will use to calculate sentiment for both subreddit posts and comments.
-* [Dbt](https://www.getdbt.com/) to transform out data in BigQuery and prepare it for visualization. 
+* [DBT](https://www.getdbt.com/) to transform out data in BigQuery and prepare it for visualization. 
 * [Looker Studio](https://lookerstudio.google.com/overview) to visualize our transformed dataset. 
+
+## Pipeline Architecture
+![alt_text](https://github.com/seacevedo/Solana-Pipeline/blob/main/pipeline_infrastructure.png)
+
+* Terraform is used to setup the environment to run our pipeline. When run, the script creates our BigQuery dataset, bucket, and our VM to run our Prefect deployment.
+* A Prefect agent is run on our VM compute environment and runs any pending deployments. Using the PRAW API, our flow extracts data from the Solana subreddit and loads it into a GCS bucket. The data from the bucket is extracted and transformed with Pyspark to calculate sentiment for text from both posts and comments. Pyspark is used to speed this process up since Pandas is slower to process this dataset. The data is then uploaded to BigQuery tables for further transformation using DBT. 
+* DBT is used to further transform the data by combining the comments and posts data with their corresponding sentiment data. Data aggregations are also made to caluclate the number of comments for each post and calculate upvote/comment ratios.
+* Looker studio is used to visualized the fact data tables from the resulting transformations completed by DBT.
 
 
 
