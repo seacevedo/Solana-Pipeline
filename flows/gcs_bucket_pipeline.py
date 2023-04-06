@@ -10,9 +10,8 @@ from output_manager import *
 
 
 def reddit_client(client_id: str, client_secret: str, reddit_username: str) -> praw.Reddit:
+    # Set up PRAW instance
     
-    '''Set up PRAW instance'''
-
     reddit_api = praw.Reddit(
         client_id=client_id,
         client_secret=client_secret,
@@ -23,14 +22,14 @@ def reddit_client(client_id: str, client_secret: str, reddit_username: str) -> p
     return reddit_api
 
 def submission_fetcher(submission, output_manager: OutputManager):
-    '''Get the submission data'''
+    # Get the submission data
     submission_data_list = (submission.id, submission.author.name, submission.title, 
                             [submission.selftext.replace(',', '')], submission.ups, submission.downs, 
                             datetime.utcfromtimestamp(submission.created_utc), submission.url)                    
     output_manager.submissions_list.append(submission_data_list)
 
 def comments_fetcher(submission, output_manager: OutputManager, reddit_api: praw.Reddit):
-    ''' Get the comments for each post (capped at 200 for posts that have more comments'''
+    # Get the comments for each post (capped at 200 for posts that have more comments
     try:
         submission_rich_data = reddit_api.submission(id=submission.id)
         if submission_rich_data.num_comments <= 200:
@@ -55,14 +54,14 @@ def comments_fetcher(submission, output_manager: OutputManager, reddit_api: praw
 
 @task(name="Writing subreddit data to gcs bucket")
 def write_gcs(path: Path) -> None:
-    '''Write data to gcs bucket'''
+    # Write data to gcs bucket
     gcs_block = GcsBucket.load("crypto-reddit")
     gcs_block.upload_from_folder(from_folder=path, to_folder=path)
 
 
 @task(name="Fetching Subreddit Data", log_prints=True, retries=3)
 def fetch_subreddit_data(client_id: str, client_secret: str, reddit_username: str, num_days: int, output_manager: OutputManager, spark: SparkSession):
-    '''Gets subreddit and post data that is N days old'''
+    # Gets subreddit and post data that is N days old
     output_manager.reset_lists()
 
     with reddit_client(client_id, client_secret, reddit_username) as reddit:
