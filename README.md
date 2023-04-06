@@ -100,4 +100,47 @@ Access the dashboard [here](https://lookerstudio.google.com/reporting/155051d4-8
 
 ![alt_text](https://github.com/seacevedo/Solana-Pipeline/blob/main/dashboard_preview.png)
 
+## Replication Steps
+
+### Create a Reddit Account
+
+1. You must create a reddit account in order to be able to scrape subreddit data. 
+2. Once you have an account go [here](https://www.reddit.com/prefs/apps). Click on the "create another app..." button at the bottom of the page. Fill in the required fields and select `web app`. Click on `create app`
+3. Under the `web_app` text under your newly created app information you should have an id for your application. Record this and the secret key. You will need to parameterize your flow with these tokens in order to use the PRAW apiSetup Google Cloud 
+
+### Setup Google Cloud 
+
+1. Create a google cloud account
+2. Setup a new google cloud [project](https://cloud.google.com/). Preferably name it `solana-subreddit-scraper` to avoid any issues with prefect scripts or dbt. You may need to update files in order to run the workflow if the project name is different.
+3. Create a new service account. Give the service account the `Compute Admin`, `Service Account User`, `Storage Admin`, `Storage Object Admin`, and `BigQuery Admin` Roles.
+4. After the service account has been created, click on `Manage Keys` under the `Actions` Menu. Click on the `Add Key` dropdown and click on `Create new key`. A prompt should pop up asking to download it as a json or P12 file. Choose the json format and click `Create`. Save your key file.
+5. Install the the [Google Cloud CLI](https://cloud.google.com/sdk/docs/install-sdk). Assuming you have an Ubuntu linux distro or similar as your environment, follow the directions for `Debian/Ubuntu`. Make sure you log in by running `gcloud init`. Choose the cloud project you created to use.
+6. Set the environment variable to point to your downloaded service account keys json file:
+
+`export GOOGLE_APPLICATION_CREDENTIALS=<path/to/your/service-account-authkeys>.json`
+
+7. Refresh token/session, and verify authentication
+`gcloud auth application-default login`
+
+8. Make sure these APIs are enabled for your project:
+
+https://console.cloud.google.com/apis/library/iam.googleapis.com
+https://console.cloud.google.com/apis/library/iamcredentials.googleapis.com
+https://console.cloud.google.com/apis/library/compute.googleapis.com
+
+### Setup VM Environment
+
+1) Clone the repo and `cd` into the `Solana-Pipeline` folder
+2) Install [Terraform](https://www.terraform.io/)
+3) Make sure you have an SSH key generated to log into the VM.
+4) `cd` to the `terraform` directory and enter the commands `terraform init`, `terraform plan`, and `terraform apply`. You can remove the corresponding infrastructure by using `terraform destroy`. For the apply and destroy commands you will be prompted to input the following variables:
+
+| Variable       | Description  |
+| ------------- |:-------------:|
+| GOOGLE_CLOUD_PROJECT_ID      | ID of the google cloud project | 
+| SERVICE_ACCOUNT_EMAIL     | Email of the service account you used to generate the key file  | 
+| SSH_USER | Username you used for the SSH Key   |  
+| SSH_PUBLIC_KEY_PATH | Path to the public SSH key      |
+| SETUP_SCRIPT_PATH | Path od the setup.sh script within the Solana-Pipeline directory     | 
+| SERVICE_ACCOUNT_FILE_PATH | Keyfile of the service account   | 
 
