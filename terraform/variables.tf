@@ -8,7 +8,7 @@ variable "GOOGLE_CLOUD_REGION" {
 }
 
 variable "GOOGLE_CLOUD_BUCKET_NAME" {
-    default = "solana_reddit"
+
 }
 
 variable "GOOGLE_CLOUD_BUCKET_STORAGE_CLASS" {
@@ -20,7 +20,7 @@ variable "BQ_DATASET_ID" {
 }
 
 variable "COMPUTE_VM_NAME" {
-  default = "solana-vm"
+
 }
 
 variable "COMPUTE_VM_MACHINE_TYPE" {
