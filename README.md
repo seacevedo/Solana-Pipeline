@@ -141,8 +141,9 @@ https://console.cloud.google.com/apis/library/compute.googleapis.com
 | SERVICE_ACCOUNT_EMAIL     | Email of the service account you used to generate the key file  | 
 | SSH_USER | Username you used for the SSH Key   |  
 | SSH_PUBLIC_KEY_PATH | Path to the public SSH key      |
-| SETUP_SCRIPT_PATH | Path od the setup.sh script within the Solana-Pipeline directory     | 
+| SETUP_SCRIPT_PATH | Path of the setup.sh script within the Solana-Pipeline directory     | 
 | SERVICE_ACCOUNT_FILE_PATH | Keyfile of the service account   | 
+| GOOGLE_CLOUD_BUCKET_NAME | Name of your GCS bucket   | 
 
 5. Log in your newly created VM environment using the following command `ssh -i /path/to/private/ssh/key username@vm_external_ip_address`. Login as superuser with the command `sudo su`. Type the command `cd ~/Solana-Pipeline/` to `cd` into the `/root/Solana-Pipeline` directory. 
 6. Activate the newly created python virtual environment using the command: `source solana-pipeline-env/bin/activate` (You may have to wait a few minutes in order for the vm instance to finish running the setup.sh script and installing all necessary dependancies).
