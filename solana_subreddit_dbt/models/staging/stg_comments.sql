@@ -6,7 +6,7 @@ select
     submission_id,
     comment_id,
     comment_author,
-    translate(comment_text, "[]", "") as comment_text,
+    translate(comment_text, "[]'", "") as comment_text,
     cast(comment_upvotes as integer) as comment_upvotes,
     cast(comment_downvotes as integer) as comment_downvotes,
     cast(comment_created_time as timestamp) as comment_created_time,
