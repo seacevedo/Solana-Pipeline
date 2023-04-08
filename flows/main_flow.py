@@ -1,43 +1,51 @@
 from prefect import flow
-from gcs_bucket_pipeline import *
-from gcs_bq_pipeline import *
-from multiprocessing import cpu_count
+from fetch_subreddit_data import *
+from sentiment_extract import *
 from output_manager import *
-from pyspark import SparkConf
-from pyspark.sql import SparkSession
 import sys
+from prefect_gcp.bigquery import bigquery_load_cloud_storage
+from prefect_gcp import GcpCredentials
 
-@contextlib.contextmanager
-def get_spark_session(conf: SparkConf):
-    # setup spark config
-    spark = SparkSession.builder.config(conf=conf).getOrCreate()
-
-    try:
-        yield spark
-    finally:
-        spark.stop()
 
 
 @flow()
-def run_pipeline(client_id: str, client_secret: str, reddit_username: str, bucket_dir: str, dbt_dir:str, subreddit: str, subreddit_cap: int, partition_num: int, num_days: int, gc_project_id: str):
-    # Gets spark instance and runs pipeline
-    n_cpus = cpu_count()
-    n_executors = n_cpus - 1
-    n_cores = 4
-    n_max_cores = n_executors * n_cores
+def run_pipeline(client_id: str, client_secret: str, reddit_username: str, bucket_name: str, dbt_dir:str, subreddit: str, subreddit_cap: int, bq_dataset_location: str, num_days: int):
+    #  Runs pipeline
 
-    conf = SparkConf().setMaster(f'local[{n_cpus}]').setAppName("solana subreddit scraper")
-    conf.set("spark.executor.cores", str(n_cores))
-    conf.set("spark.cores.max", str(n_max_cores))
+    output_manager = OutputManager(subreddit, subreddit_cap)
+    fetch_subreddit_data(client_id, client_secret, reddit_username, num_days, output_manager)
+    process_sentiment(output_manager.runtime_dir)  
+    write_gcs(output_manager.subreddit)  
 
-    output_manager = OutputManager(subreddit, subreddit_cap, partition_num, bucket_dir)
-    with get_spark_session(conf) as spark_session:
-        fetch_subreddit_data(client_id, client_secret, reddit_username, num_days, output_manager, spark_session)
-        write_gcs(output_manager.subreddit)
-        extract_from_gcs(output_manager.subreddit, output_manager.bucket_dir)
-        sub_ddf, com_ddf, sent_ddf = process_sentiment(spark_session, output_manager.bq_upload_dir)  
-        migrate_to_bq(sub_ddf, com_ddf, sent_ddf, gc_project_id)
-        run_dbt_transformations(dbt_dir)
+    gcp_credentials_block = GcpCredentials.load("crypto-gcp-creds")
+    print(type(gcp_credentials_block))
+    print(f"gs://{bucket_name}/{output_manager.runtime_dir}/submissions")
+
+    bigquery_load_cloud_storage(
+        dataset="solana_subreddit_posts",
+        table="submissions",
+        uri=f"gs://{bucket_name}/{output_manager.runtime_dir}/submissions.csv",
+        gcp_credentials=gcp_credentials_block,
+        location=bq_dataset_location
+    )
+
+    bigquery_load_cloud_storage(
+        dataset="solana_subreddit_posts",
+        table="comments",
+        uri=f"gs://{bucket_name}/{output_manager.runtime_dir}/comments.csv",
+        gcp_credentials=gcp_credentials_block,
+        location=bq_dataset_location
+    )
+
+    bigquery_load_cloud_storage(
+        dataset="solana_subreddit_posts",
+        table="sentiments",
+        uri=f"gs://{bucket_name}/{output_manager.runtime_dir}/sentiments.csv",
+        gcp_credentials=gcp_credentials_block,
+        location=bq_dataset_location
+    )
+
+    run_dbt_transformations(dbt_dir)
 
         
 
@@ -46,11 +54,10 @@ if __name__ == '__main__':
    client_id = sys.argv[1]
    client_secret = sys.argv[2]
    reddit_username = sys.argv[3]
-   bucket_dir = sys.argv[4]
+   bucket_name = sys.argv[4]
    dbt_dir = sys.argv[5]
    subreddit = sys.argv[6]
    subreddit_cap = sys.argv[7]
-   partition_num = sys.argv[8]
+   bq_dataset_location = sys.argv[8]
    num_days = sys.argv[9]
-   gc_project_id = sys.argv[10]
-   run_pipeline(client_id, client_secret, reddit_username, bucket_dir, dbt_dir, subreddit, subreddit_cap, partition_num, num_days, gc_project_id)
+   run_pipeline(client_id, client_secret, reddit_username, bucket_name, dbt_dir, subreddit, subreddit_cap, bq_dataset_location, num_days)
