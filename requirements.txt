@@ -3,9 +3,9 @@ praw==7.7.0
 prefect==2.7.7
 prefect-dbt[bigquery]==0.3.1
 prefect-gcp[cloud_storage]==0.2.4
+prefect-gcp[bigquery]==0.2.4
 spacy==3.5.1
 spacytextblob==4.0.0
-pandas-gbq==0.18.1
 dbt-core==1.4.5
 dbt-bigquery==1.4.3
 
