@@ -21,7 +21,6 @@ Solana is a new blockchain protocol that has garrnered interest in the technolog
 * [Google Cloud](https://cloud.google.com/) to upload data to a google cloud bucket and use BigQuery as our data warehouse. We will also set up a VM environment to host our prefect deployment.
 * [Terraform](https://www.terraform.io/) for version control of our infrastructure.
 * [Prefect](https://www.prefect.io/) will be used to orchestrate and monitor our pipeline. 
-* [Pyspark](https://spark.apache.org/) to load data and calculate sentiment quickly and eficiently. Since this is text data, it can take some time to transform data when using Pandas for this dataset. 
 * [SpaCy](https://spacy.io/) is an NLP library that we will use to calculate sentiment for both subreddit posts and comments.
 * [DBT](https://www.getdbt.com/) to transform out data in BigQuery and prepare it for visualization. 
 * [Looker Studio](https://lookerstudio.google.com/overview) to visualize our transformed dataset. 
