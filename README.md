@@ -156,7 +156,7 @@ https://console.cloud.google.com/apis/library/compute.googleapis.com
 | crypto-reddit   | Block pertaining to the bucket you wish to load the data into | 
 
   
-9. You can then run the deployment using the command `prefect deployment run run-pipeline/solana-pipeline-deployment --params '{"client_id":<client_id>, "client_secret":<client_secret>, "reddit_username":<reddit_username>, "bucket_name":"solana_reddit", "dbt_dir":"/root/Solana-Pipeline/solana_subreddit_dbt/", "subreddit":"solana", "subreddit_cap":50, "bq_dataset_location":"us-central1", "num_days":1}'` as an example. The deployment should be scheduled.
+9. You can then run the deployment using the command `prefect deployment run run-pipeline/solana-pipeline-deployment --params '{"client_id":<client_id>, "client_secret":<client_secret>, "reddit_username":<reddit_username>, "bucket_name":"solana_reddit", "dbt_dir":"/root/Solana-Pipeline/solana_subreddit_dbt/", "subreddit":"solana", "subreddit_cap":100, "bq_dataset_location":"us-central1", "num_days":15}'` as an example. The deployment should be scheduled.
 10. Your newly scheduled deployment can be run when initiating a prefect agent. Run the command `prefect agent start -q "default"` to run your deployment.
 
 ## Next Steps
