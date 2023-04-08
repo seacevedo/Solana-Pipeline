@@ -24,6 +24,7 @@ Solana is a new blockchain protocol that has garrnered interest in the technolog
 * [SpaCy](https://spacy.io/) is an NLP library that we will use to calculate sentiment for both subreddit posts and comments.
 * [DBT](https://www.getdbt.com/) to transform out data in BigQuery and prepare it for visualization. 
 * [Looker Studio](https://lookerstudio.google.com/overview) to visualize our transformed dataset. 
+* [Pandas](https://pandas.pydata.org/) to visualize our transformed dataset. 
 
 ## Pipeline Architecture
 ![alt_text](https://github.com/seacevedo/Solana-Pipeline/blob/main/pipeline_infrastructure.png)
