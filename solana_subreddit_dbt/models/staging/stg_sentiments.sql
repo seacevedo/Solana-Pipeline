@@ -7,8 +7,8 @@ select
     reddit_obj_type,
     cast(sentiment_score as numeric) as sentiment_score,
     sentiment_label,
-    translate(positive_words, "[]", "") as positive_words,
-    translate(negative_words, "[]", "") as negative_words
+    translate(positive_words, "[]'", "") as positive_words,
+    translate(negative_words, "[]'", "") as negative_words
 
 
 from {{ source('staging','sentiments') }}
