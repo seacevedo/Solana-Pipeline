@@ -7,7 +7,7 @@ select
     submission_id,
     submission_author,
     submission_title,
-    translate(submission_text, "[]", "") as submission_text,
+    translate(submission_text, "[]'", "") as submission_text,
     cast(submission_upvotes as integer) as submission_upvotes,
     cast(submission_downvotes as integer) as submission_downvotes,
     cast(submission_created_time as timestamp) as submission_created_time,
