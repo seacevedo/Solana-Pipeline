@@ -18,8 +18,8 @@ def run_pipeline(client_id: str, client_secret: str, reddit_username: str, bucke
     write_gcs(output_manager.subreddit)  
 
     gcp_credentials_block = GcpCredentials.load("crypto-gcp-creds")
-    print(type(gcp_credentials_block))
-    print(f"gs://{bucket_name}/{output_manager.runtime_dir}/submissions")
+    
+    
 
     bigquery_load_cloud_storage(
         dataset="solana_subreddit_posts",
