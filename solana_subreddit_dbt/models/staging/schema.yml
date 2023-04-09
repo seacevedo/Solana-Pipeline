@@ -3,8 +3,8 @@ version: 2
 
 sources:
  - name: staging
-   database: "solana-subreddit-scraper"
-   schema: "solana_subreddit_posts"
+   database: "solana-subreddit-scraper" # Change to google project id
+   schema: "solana_subreddit_posts" # Change to bigquery dataset id
    tables:
     - name: submissions
     - name: comments
