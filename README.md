@@ -145,7 +145,7 @@ https://console.cloud.google.com/apis/library/compute.googleapis.com
 | SERVICE_ACCOUNT_FILE_PATH | Keyfile of the service account   | 
 | GOOGLE_CLOUD_BUCKET_NAME | Name of your GCS bucket   | 
 
-5. Log in your newly created VM environment using the following command `ssh -i /path/to/private/ssh/key username@vm_external_ip_address`. As an alternative, follow this [video](https://www.youtube.com/watch?v=ae-CV2KfoN0&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb) to help setup SSH in a VS code environment, which allows for port forwarding from your cloud VM to your local machine. Type the command `cd /Solana-Pipeline` to `cd` into the `/Solana-Pipeline` directory. 
+5. Log in your newly created VM environment using the following command `ssh -i /path/to/private/ssh/key username@vm_external_ip_address`. As an alternative, follow this [video](https://www.youtube.com/watch?v=ae-CV2KfoN0&list=PL3MmuxUbc_hJed7dXYoJw8DoCuVHhGEQb) to help setup SSH in a VS code environment, which allows for port forwarding from your cloud VM to your local machine. Type the command `cd /Solana-Pipeline` to `cd` into the `/Solana-Pipeline` directory. Login as super user with the command `sudo su` in order to edit files.
 6. Activate the newly created python virtual environment using the command: `source solana-pipeline-env/bin/activate` (You may have to wait a few minutes in order for the vm instance to finish running the setup.sh script and installing all necessary dependancies).
 7. Make sure you update the profiles.yml and schema.yml files in your dbt directory. Change the appropriate fields with the correct google cloud project id, dataset name, location, and keyfile path. 
 8. You should now have prefect installed. Run the prefect server locally using the `prefect orion start` command to monitor flows. This is needed to access the Orion UI. In another terminal, `cd` into the `flows` directory and run the command `prefect deployment build main_flow.py:run_pipeline -n "solana-pipeline-deployment" --cron "0 0 * * *" -a` to build the prefect deployment that runs at 12:00 AM every day. Make sure you setup the following prefect blocks before running:
@@ -156,7 +156,7 @@ https://console.cloud.google.com/apis/library/compute.googleapis.com
 | crypto-reddit   | Block pertaining to the bucket you wish to load the data into | 
 
   
-9. You can then run the deployment using the command `prefect deployment run run-pipeline/solana-pipeline-deployment --params '{"client_id":<client_id>, "client_secret":<client_secret>, "reddit_username":<reddit_username>, "bucket_name":"solana_reddit", "dbt_dir":"/root/Solana-Pipeline/solana_subreddit_dbt/", "subreddit":"solana", "subreddit_cap":100, "bq_dataset_location":"us-central1", "num_days":15}'` as an example. The deployment should be scheduled.
+9. You can then run the deployment using the command `prefect deployment run run-pipeline/solana-pipeline-deployment --params '{"client_id":<client_id>, "client_secret":<client_secret>, "reddit_username":<reddit_username>, "bucket_name":"solana_reddit", "dbt_dir":"/Solana-Pipeline/solana_subreddit_dbt/", "subreddit":"solana", "subreddit_cap":100, "bq_dataset_location":"us-central1", "num_days":15}'` as an example. The deployment should be scheduled.
 10. Your newly scheduled deployment can be run when initiating a prefect agent. Run the command `prefect agent start -q "default"` to run your deployment.
 
 ## Next Steps
