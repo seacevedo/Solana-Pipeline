@@ -27,7 +27,7 @@ Solana is a new blockchain protocol that has garrnered interest in the technolog
 * [Pandas](https://pandas.pydata.org/) to import and transform our dataset. 
 
 ## Pipeline Architecture
-![alt_text](https://dagshub.com/seacevedo/Solana-Pipeline/src/main/pipeline_infrastructure.png)
+![alt_text](https://github.com/seacevedo/Solana-Pipeline/blob/4d175ca46263ea590ce012011fc18a0b70f326a8/pipeline_infrastructure.png)
 
 * Terraform is used to setup the environment to run our pipeline. When run, the script creates our BigQuery dataset, bucket, and our VM to run our Prefect deployment.
 * A Prefect agent is run on our VM compute environment and runs any pending deployments. Using the PRAW API, our flow extracts data from the Solana subreddit, calculates the sentiment of the text data and loads it into a GCS bucket. The data from the bucket is then uploaded to BigQuery tables for further transformation using DBT. 
