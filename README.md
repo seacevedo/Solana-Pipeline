@@ -22,7 +22,7 @@ Solana is a new blockchain protocol that has garrnered interest in the technolog
 * [Terraform](https://www.terraform.io/) for version control of our infrastructure.
 * [Prefect](https://www.prefect.io/) will be used to orchestrate and monitor our pipeline. 
 * [SpaCy](https://spacy.io/) is an NLP library that we will use to calculate sentiment for both subreddit posts and comments.
-* [DBT](https://www.getdbt.com/) to transform out data in BigQuery and prepare it for visualization. 
+* [DBT](https://www.getdbt.com/) to transform out data in BigQuery and prepare it for visualization using SQL. 
 * [Looker Studio](https://lookerstudio.google.com/overview) to visualize our transformed dataset. 
 * [Pandas](https://pandas.pydata.org/) to import and transform our dataset. 
 
