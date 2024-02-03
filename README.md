@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://images.app.goo.gl/vLuuDpj11RJKdnzy5" />
+  <img src="https://i.pinimg.com/originals/bb/45/2c/bb452c2993f1a65bc72be5ea28dd520e.png" />
 </p>
 
 ## Purpose
